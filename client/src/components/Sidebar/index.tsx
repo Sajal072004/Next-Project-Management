@@ -21,13 +21,17 @@ import {
   X,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useAppDispatch , useAppSelector } from "@/src/app/redux";
+import { useAppDispatch, useAppSelector } from "@/src/app/redux";
 import Link from "next/link";
 import { setIsSidebarCollapsed } from "@/src/state";
+import { useGetProjectsQuery } from "@/src/state/api";
 
 const Sidebar = () => {
   const [showProjects, setShowProjects] = useState(true);
   const [showPriority, setShowPriority] = useState(true);
+
+  const { data: projects } = useGetProjectsQuery();
+  console.log("projects", projects);
 
   const dispatch = useAppDispatch();
   const isSidebarCollapsed = useAppSelector(
@@ -72,7 +76,9 @@ const Sidebar = () => {
             </div>
           </div>
         </div>
+
         {/* Navbar links */}
+
         <nav className="z-10 w-full">
           <SidebarLink icon={Home} label="Home" href="/" />
           <SidebarLink icon={Briefcase} label="Timeline" href="/timeline" />
@@ -96,6 +102,15 @@ const Sidebar = () => {
           )}
         </button>
         {/* Projects List */}
+        {showProjects &&
+          projects?.map((project) => (
+            <SidebarLink
+              key={project.id}
+              icon={Briefcase}
+              label={project.name}
+              href={`/projects/${project.id}`}
+            />
+          ))}
 
         {/* Priorities Links */}
         <button

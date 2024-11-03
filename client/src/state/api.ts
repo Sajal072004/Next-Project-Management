@@ -74,7 +74,9 @@ export interface Team {
 }
 
 export const api = createApi({
-  baseQuery: fetchBaseQuery({baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL}),
+  baseQuery: fetchBaseQuery({
+    baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
+  }),
   reducerPath: "api",
   tagTypes: ["Projects", "Tasks"],
   endpoints: (build) => ({
@@ -87,35 +89,34 @@ export const api = createApi({
       query: (project) => ({
         url: "projects",
         method: "POST",
-        body : project,
+        body: project,
       }),
       invalidatesTags: ["Projects"],
     }),
 
-    getTasks: build.query<Task[], {projectId:number}>({
-      query: (projectId) => `tasks?projectId=${projectId}`,
-      providesTags: (result) => result ? result.map(({id})=> ({type: "Tasks" as const, id})) : [{type : "Tasks" as const}] 
+    getTasks: build.query<Task[], { projectId: number }>({
+      query: ({ projectId }) => `tasks?projectId=${projectId}`,
+      providesTags: (result) =>
+        result ? result.map(({ id }) => ({ type: "Tasks" as const, id })) : [{ type: "Tasks" as const }],
     }),
 
     createTask: build.mutation<Task, Partial<Task>>({
       query: (task) => ({
         url: "tasks",
         method: "POST",
-        body : task,
+        body: task,
       }),
       invalidatesTags: ["Tasks"],
     }),
 
-    updateTaskStatus: build.mutation<Task, {taskId: number; status: string}>({
-      query: ({taskId, status}) => ({
+    updateTaskStatus: build.mutation<Task, { taskId: number; status: string }>({
+      query: ({ taskId, status }) => ({
         url: `tasks/${taskId}/status`,
         method: "PATCH",
-        body : {status},
+        body: { status },
       }),
-      invalidatesTags: (result, error , {taskId}) => [ {type: "Tasks" , id: taskId},],
+      invalidatesTags: (result, error, { taskId }) => [{ type: "Tasks", id: taskId }],
     }),
-
-
   }),
 });
 
@@ -123,5 +124,6 @@ export const {
   useGetProjectsQuery,
   useCreateProjectMutation,
   useGetTasksQuery,
-  useCreateTaskMutation
+  useCreateTaskMutation,
+  useUpdateTaskStatusMutation,
 } = api;
