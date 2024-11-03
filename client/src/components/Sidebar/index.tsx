@@ -21,7 +21,7 @@ import {
   X,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "../../redux";
+import { useAppDispatch , useAppSelector } from "@/src/app/redux";
 import Link from "next/link";
 import { setIsSidebarCollapsed } from "@/src/state";
 
