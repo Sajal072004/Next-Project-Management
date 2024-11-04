@@ -84,7 +84,7 @@ export const api = createApi({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
   }),
   reducerPath: "api",
-  tagTypes: ["Projects", "Tasks"],
+  tagTypes: ["Projects", "Tasks" , "Users"],
   endpoints: (build) => ({
     getProjects: build.query<Project[], void>({
       query: () => "projects",
@@ -124,6 +124,11 @@ export const api = createApi({
       invalidatesTags: (result, error, { taskId }) => [{ type: "Tasks", id: taskId }],
     }),
 
+    getUsers: build.query<User[],void>({
+      query: () => "users",
+      providesTags:["Users"]
+    }),
+
     search: build.query<SearchResults,string>({
       query: (query) => `search?query=${query}`,
     })
@@ -137,5 +142,6 @@ export const {
   useGetTasksQuery,
   useCreateTaskMutation,
   useUpdateTaskStatusMutation,
-  useSearchQuery
+  useSearchQuery,
+  useGetUsersQuery
 } = api;
