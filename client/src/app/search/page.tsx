@@ -29,6 +29,12 @@ const Search = () => {
     return handleSearch.cancel;
   }, [handleSearch.cancel]);
 
+  const hasResults =
+    searchResults &&
+    (searchResults.tasks?.length > 0 ||
+      searchResults.projects?.length > 0 ||
+      searchResults.users?.length > 0);
+
   return (
     <div className="p-8">
       <Header name="Search" />
@@ -43,28 +49,48 @@ const Search = () => {
       <div className="p-5">
         {isLoading && <p>Loading...</p>}
         {isError && <p>Error occurred while fetching search results.</p>}
-        {!isLoading && !isError && searchResults && (
+        {!isLoading && !isError && (
           <div>
-            {searchResults.tasks && searchResults.tasks?.length > 0 && (
-              <h2>Tasks</h2>
-            )}
-            {searchResults.tasks?.map((task) => (
-              <TaskCard key={task.id} task={task} />
-            ))}
+            {hasResults ? (
+              <>
+                {searchResults.tasks && searchResults.tasks.length > 0 && (
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 my-4">
+                      Tasks
+                    </h2>
+                    {searchResults.tasks.map((task) => (
+                      <TaskCard key={task.id} task={task} />
+                    ))}
+                  </div>
+                )}
 
-            {searchResults.projects && searchResults.projects?.length > 0 && (
-              <h2>Projects</h2>
-            )}
-            {searchResults.projects?.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
+                {searchResults.projects && searchResults.projects.length > 0 && (
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 my-4">
+                      Projects
+                    </h2>
+                    {searchResults.projects.map((project) => (
+                      <ProjectCard key={project.id} project={project} />
+                    ))}
+                  </div>
+                )}
 
-            {searchResults.users && searchResults.users?.length > 0 && (
-              <h2>Users</h2>
+                {searchResults.users && searchResults.users.length > 0 && (
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 my-4">
+                      Users
+                    </h2>
+                    {searchResults.users.map((user) => (
+                      <UserCard key={user.userId} user={user} />
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <p className="text-lg text-gray-600 dark:text-gray-400">
+                No results found
+              </p>
             )}
-            {searchResults.users?.map((user) => (
-              <UserCard key={user.userId} user={user} />
-            ))}
           </div>
         )}
       </div>
