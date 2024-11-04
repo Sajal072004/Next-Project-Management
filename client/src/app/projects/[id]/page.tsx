@@ -1,18 +1,21 @@
-"use client"
-import React, { useState } from 'react'
-import ProjectHeader from '../ProjectHeader'
-import Board from '../BoardView'
+"use client";
+import React, { useState } from "react";
+import ProjectHeader from "../ProjectHeader";
+import Board from "../BoardView";
+import List from "../ListView";
+import Timeline from "../TimelineView"
+import Table from "../TableView";
 
 type Props = {
-  params:{id:string}
-}
+  params: { id: string };
+};
 
-const Project = ({params}: Props) => {
-  const {id} = params;
-  const [activeTab , setActiveTab] = useState("Board");
-  const [isModalNewTaskOpen , setIsModalNewTaskOpen] = useState(false);
+const Project = ({ params }: Props) => {
+  const { id } = params;
+  const [activeTab, setActiveTab] = useState("Board");
+  const [isModalNewTaskOpen, setIsModalNewTaskOpen] = useState(false);
   return (
-    <div>
+    <div className="overflow-auto">
       {/* modal new task */}
 
       <ProjectHeader activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -20,8 +23,20 @@ const Project = ({params}: Props) => {
         <Board id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
       )}
 
-    </div>
-  )
-}
+      {activeTab === "List" && (
+        <List id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
+      )}
 
-export default Project
+{activeTab === "Timeline" && (
+        <Timeline id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
+      )}
+
+{activeTab === "Table" && (
+        <Table id={id} setIsModalNewTaskOpen={setIsModalNewTaskOpen} />
+      )}
+
+    </div>
+  );
+};
+
+export default Project;
