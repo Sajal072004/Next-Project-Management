@@ -7,6 +7,7 @@ import morgan from 'morgan'
 
 import projectRoutes from './routes/project-routes'
 import taskRoutes from './routes/task-routes'
+import searchRoutes from './routes/search-routes'
 
 // Route Imports
 
@@ -27,6 +28,7 @@ app.get("/" , (req ,res) => {
 
 app.use("/projects" , projectRoutes);
 app.use('/tasks' , taskRoutes);
+app.use('/search' , searchRoutes)
 
 // server
 
