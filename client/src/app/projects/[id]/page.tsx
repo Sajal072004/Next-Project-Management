@@ -5,6 +5,7 @@ import Board from "../BoardView";
 import List from "../ListView";
 import Timeline from "../TimelineView"
 import Table from "../TableView";
+import ModalNewTask from "@/src/components/ModalNewTask";
 
 type Props = {
   params: { id: string };
@@ -17,6 +18,7 @@ const Project = ({ params }: Props) => {
   return (
     <div className="overflow-auto">
       {/* modal new task */}
+      <ModalNewTask isOpen={isModalNewTaskOpen} onClose = {() => setIsModalNewTaskOpen(false)} id={id} />
 
       <ProjectHeader activeTab={activeTab} setActiveTab={setActiveTab} />
       {activeTab === "Board" && (

@@ -13,7 +13,11 @@ type Props = {
 const columns: GridColDef[] = [
   { field: "title", headerName: "Title", width: 100 },
   { field: "description", headerName: "Description", width: 200 },
-  { field: "status", headerName: "Status", width: 130, renderCell: (params) => (
+  {
+    field: "status",
+    headerName: "Status",
+    width: 130,
+    renderCell: (params) => (
       <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
         {params.value}
       </span>
@@ -23,19 +27,33 @@ const columns: GridColDef[] = [
   { field: "tags", headerName: "Tags", width: 130 },
   { field: "startDate", headerName: "Start Date", width: 130 },
   { field: "dueDate", headerName: "Due Date", width: 130 },
-  { field: "author", headerName: "Author", width: 150, renderCell: (params) => params.value?.author || "Unknown" },
-  { field: "assignee", headerName: "Assignee", width: 150, renderCell: (params) => params.value?.assignee || "Unassigned" },
+  {
+    field: "author",
+    headerName: "Author",
+    width: 150,
+    renderCell: (params) => params.value?.username || "Unknown",
+  },
+  {
+    field: "assignee",
+    headerName: "Assignee",
+    width: 150,
+    renderCell: (params) => params.value?.username || "Unassigned",
+  },
 ];
 
 const TableView = ({ id, setIsModalNewTaskOpen }: Props) => {
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
-  const { data: tasks, error, isLoading } = useGetTasksQuery({ projectId: Number(id) });
+  const {
+    data: tasks,
+    error,
+    isLoading,
+  } = useGetTasksQuery({ projectId: Number(id) });
 
   if (isLoading) return <div>Loading...</div>;
   if (error || !tasks) return <div>An error occurred while fetching tasks</div>;
 
   return (
-    <div className="h-screen w-full px-4 pb-8 xl:px-6 flex flex-col">
+    <div className="flex h-screen w-full flex-col px-4 pb-8 xl:px-6">
       <div className="pt-5">
         <Header
           name="Table"
@@ -50,7 +68,7 @@ const TableView = ({ id, setIsModalNewTaskOpen }: Props) => {
           isSmallText
         />
       </div>
-      <div className="flex flex-col flex-grow overflow-hidden">
+      <div className="flex flex-grow flex-col overflow-hidden">
         <DataGrid
           rows={tasks || []}
           columns={columns}
@@ -60,7 +78,7 @@ const TableView = ({ id, setIsModalNewTaskOpen }: Props) => {
             display: "flex",
             flexDirection: "column-reverse", // Positions pagination above rows
             "& .MuiDataGrid-virtualScroller": {
-              overflowY: "auto", 
+              overflowY: "auto",
               maxHeight: "calc(100vh - 250px)", // Adjust based on screen height
             },
             "& .MuiDataGrid-footerContainer": {
@@ -71,7 +89,6 @@ const TableView = ({ id, setIsModalNewTaskOpen }: Props) => {
             },
           }}
           pagination
-          
         />
       </div>
     </div>
