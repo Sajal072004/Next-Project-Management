@@ -9,6 +9,7 @@ import projectRoutes from './routes/project-routes'
 import taskRoutes from './routes/task-routes'
 import searchRoutes from './routes/search-routes'
 import userRoutes from './routes/user-routes'
+import teamRoutes from './routes/team-routes'
 
 // Route Imports
 
@@ -31,6 +32,7 @@ app.use("/projects" , projectRoutes);
 app.use('/tasks' , taskRoutes);
 app.use('/search' , searchRoutes);
 app.use('/users' , userRoutes);
+app.use('/teams', teamRoutes)
 
 // server
 
